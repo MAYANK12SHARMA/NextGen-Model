@@ -53,7 +53,7 @@ def MainPageNavigation():
                 }
             </style>
             <div class="dropdown">
-                <a href="next-gen-hyf2gyg6cfb2cfar.canadacentral-01.azurewebsites.net" target="_blank">
+                <a href="https://next-gen-hyf2gyg6cfb2cfar.canadacentral-01.azurewebsites.net" target="_blank">
                     <button class="dropbtn">Go to PlotWizard <span class="arrow"><i class="fas fa-up-right-from-square custom"></i></span></button>
                 </a>
             </div>
