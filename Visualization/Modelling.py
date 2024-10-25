@@ -120,9 +120,15 @@ def Modelling():
                 
                 
                 
-                    
-                    
-                if st.sidebar.checkbox("Remove Columns"):
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>1. Remove Columns</h2><br>""",
+                    unsafe_allow_html=True
+                )
+                
+                remove_columns = st.sidebar.selectbox("", ["False", "True"], label_visibility="collapsed", key="remove_columns")
+                
+                if remove_columns == "True":             
+                # if st.sidebar.checkbox("Remove Columns"):
                 
                     selected_columns = st.sidebar.multiselect("Select Columns to Remove", df.columns.to_list())
                     df = df.drop(selected_columns, axis=1)
@@ -163,15 +169,17 @@ def Modelling():
                         
                        
                 
-                st.sidebar.write("---------------------------------------------------------------------------")
-                if st.sidebar.checkbox("EDA"):
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>2. Exploratory data analysis</h2><br>""",
+                    unsafe_allow_html=True
+                )
+                
+                EDA_options = st.sidebar.selectbox("Select EDA Option", ["False", "True"], label_visibility="collapsed", key="eda_options")
+                
+                if EDA_options == "True":
                         pdf_list=[]
                         plots=[]
                         
-                        
-                                                
-                     
-                   
                         if st.checkbox("Show Shape"):
                             st.write(f"Shape of the dataset: {df.shape}")
                             shape_info = f"Shape of the dataset: {df.shape}\n"
@@ -398,9 +406,15 @@ def Modelling():
         
                                 
                     
-                st.sidebar.write("---------------------------------------------------------------------------")
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>3. Generate Plots </h2><br>""",
+                    unsafe_allow_html=True
+                )
                 
-                if st.sidebar.checkbox("Generate Plot"):
+                generate_plots_option = st.sidebar.selectbox("Generate Plots", ["False", "True"], label_visibility="collapsed", key="generate_plots")
+                      
+                if generate_plots_option == "True":
+                              
                     plots=["histogram","scatterplot","cumulative distribution plots","density plot"]
                     a=st.selectbox("choose any plot",plots)
                     st.write(a)
@@ -485,9 +499,14 @@ def Modelling():
                          
                 
                         
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>4. Feature Importance </h2><br>""",
+                    unsafe_allow_html=True
+                )     
                 
-                st.sidebar.write("---------------------------------------------------------------------------")
-                if st.sidebar.checkbox("important features"):
+                feature_importance_option = st.sidebar.selectbox("Feature Importance", ["False", "True"], label_visibility="collapsed", key="feature_importance")
+                
+                if feature_importance_option == "True":
                     try:
                         all_columns = df.columns.to_list()
                         target= st.sidebar.selectbox("Select Target Column", all_columns)
@@ -679,8 +698,15 @@ def Modelling():
                             
                             
                         } 
-                st.sidebar.write("---------------------------------------------------------------------------")
-                if st.sidebar.checkbox("Enable Anomaly Detection"): 
+                
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>5. Enable Anamaly Detection</h2><br>""",
+                    unsafe_allow_html=True
+                )                
+                
+                anomaly_detection_option = st.sidebar.selectbox("Anomaly Detection", ["False", "True"], label_visibility="collapsed", key="anomaly_detection")
+                
+                if anomaly_detection_option == "True":
                     method = st.selectbox("Choose an anomaly detection method", 
                                   ["Isolation Forest"]
                                        )
@@ -715,9 +741,15 @@ def Modelling():
                             st.pyplot(fig)
                         except:
                             st.write("")
-                st.sidebar.write("---------------------------------------------------------------------------")            
-                        
-                if st.sidebar.checkbox("timeseries data"):
+
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>6. Time-Series Analysis</h2><br>""",
+                    unsafe_allow_html=True
+                )
+                
+                time_series_option = st.sidebar.selectbox("Model Selection", ["False", "True"], label_visibility="collapsed", key="time_series")
+                
+                if time_series_option == "True":
                     index_column = st.selectbox("Select a column to set as index (usually a date/time column)", df.columns)
 
                     # Set the selected column as the index
@@ -772,10 +804,15 @@ def Modelling():
                         st.write("ARIMA Model Summary:")
                         st.text(model_fit.summary())
                 
-                st.sidebar.write("---------------------------------------------------------------------------")
                 
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>7. Enable Ensemble Learning</h2><br>""",
+                    unsafe_allow_html=True
+                )
                 
-                if st.sidebar.checkbox("ensemble"):
+                ensemble_option = st.sidebar.selectbox("Ensemble Learning", ["False", "True"], label_visibility="collapsed", key="ensemble")
+                
+                if ensemble_option == "True":
                     models=['custom bagging','custom boosting']
                     option=["regression","classification"]
                     st.subheader("Boothstrap Aggreation")
@@ -1172,9 +1209,14 @@ def Modelling():
                             st.write("Please select at least one model.")
 
                         
-                                    
-                st.sidebar.write("---------------------------------------------------------------------------")
-                if st.sidebar.checkbox('Stacking '):
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>8. Enable Stacking Classifer</h2><br>""",
+                    unsafe_allow_html=True
+                )
+                
+                stacking_option = st.sidebar.selectbox("Stacking Classifer", ["False", "True"], label_visibility="collapsed", key="stacking")
+                
+                if stacking_option == "True":
                     option=["regression","classification"]
                     m=st.selectbox("target type",options=["target"]+option)
                     
@@ -1432,10 +1474,15 @@ def Modelling():
                     
                     
                         
-                            
+                st.sidebar.markdown(
+                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>9. Select Model </h2><br>""",
+                    unsafe_allow_html=True
+                )
                 
-                st.sidebar.write("---------------------------------------------------------------------------")        
-                model_name = st.sidebar.selectbox("Select Model",options=["Select a model"] + list(all_models.keys())) 
+                
+                                            
+                
+                model_name = st.sidebar.selectbox("Select Model",options=["Select a model"] + list(all_models.keys()),label_visibility="collapsed", key="model")
                         
                         
                     

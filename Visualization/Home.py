@@ -62,67 +62,74 @@ def MainPageNavigation():
                 # Short description or instructions
         
         # Lottie Animation
-        lottile_json = load_lottie_file("./Visualization/FilesJson/Navbar-Jif.json")
+        lottile_json = load_lottie_file("./Visualization/FilesJson/Animation2.json")
         st_lottie(lottile_json, speed=1, width=250, height=250, key="initial")
 
 
+import streamlit as st
+from streamlit_lottie import st_lottie
+
+def load_lottie_file(filepath):
+    with open(filepath, "r") as f:
+        return json.load(f)
 
 def MainPage():
     # Introduction Section
-    Col1, col2 = st.columns([3,1])
+    Col1, col2 = st.columns([3, 1])
     with Col1:    
         st.markdown(
-                    """
-                    <style>
-                    @font-face {
-                        font-family: 'Algerian';
-                        src: url('font-family\Algerian-Regular.ttf') format('truetype');
-                    }
+            """
+            <style>
+            @font-face {
+                font-family: 'Algerian';
+                src: url('font-family/Algerian-Regular.ttf') format('truetype');
+            }
 
-                    .centered , h2 {
-                        text-align: center;
-                        font-family: 'Algerian', sans-serif;
-                        color: #00FFFF;
-                        font-weight: 300;
-                    }
-                    
-                    .justified {
-                        text-align: justify;
-                        font-family: Arial, sans-serif;
-                    }
-                    
-                    
-                    </style>
-
-                    <div class="centered">
-                        <h2>👋 <b>Introduction</b></h2>
-                    </div>
-                    
-                    <div class="justified">
-                        Welcome to the <b>Visualization Tool</b>, a powerful and easy-to-use platform designed for generating stunning data visualizations with just a few clicks! Whether you're a beginner or a seasoned data scientist, our tool offers intuitive interfaces and customizable options for every use case. <br><br>
-                        From selecting chart types to generating clean, reusable Python code, you’ll find everything you need to create beautiful and insightful plots. This tool supports a variety of datasets and customization options, ensuring that your visualizations are both informative and visually appealing. <br><br>
-                    </div>
-                    """,
-    unsafe_allow_html=True
-    )
+            .centered , h2 {
+                text-align: center;
+                font-family: 'Algerian', sans-serif;
+                color: #F0F0FF;
+                font-weight: 300;
+            }
+            
+            .justified {
+                text-align: justify;
+                font-family: Arial, sans-serif;
+            }
+            </style>
+            
+            <div style="text-align: center;">
+                <h2>👋 <b>Introduction</b></h2>
+            </div>
+            
+            <div class="justified">
+                Welcome to the No-Code Model Platform, a powerful and intuitive platform designed for predicting outputs from any tabular data, including time series!
+                </br></br>
+                Whether you’re a novice or an experienced data scientist, our Platform offers automated features and a rich library of models tailored for both classification and regression tasks.
+                </br>
+                
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     with col2:
         lottile_json = load_lottie_file("./Visualization/FilesJson/Animation.json")
-        st_lottie(lottile_json, speed=1, width=300, height=250)
+        st_lottie(lottile_json, speed=52, width=300, height=200)
 
     # Divider
     st.markdown("---")
+
     # Features Section
     st.markdown(
         """
         <div style="text-align: center;">
-            <h2>🌟 <b>Features of the Visualization Tool</b></h2>
+            <h2>🌟 <b>Features of the No-Code Model Platform</b></h2>
         </div>
         """,
         unsafe_allow_html=True
     )
 
-        # Add the CSS styles for each section
     # Add the CSS styles for each section
     st.markdown(
         """
@@ -156,25 +163,21 @@ def MainPage():
         unsafe_allow_html=True
     )
 
-   
-
-    # Section 1: User Interface Design (Input and Customization)
+    # Section 1: Model Flexibility
     with st.container():
         st.markdown(
             """
             <div class="subtitle">
-                1. 🎨 User Interface Design (Input and Customization)
+                1. 🛠️ Model Flexibility (Classification & Regression)
             </div>
             <div class="content">
-                ✅ <b>Graph Type Selection</b>:  
-                Line plot, bar plot, scatter plot, etc.  
-                Support for <b>both Matplotlib and Seaborn</b> plots.
+                ✅ <b>Predictive Power:</b> Capable of handling any tabular data, including time series, with support for both classification and regression tasks.
                 <br><br>
-                📁 <b>Data Input</b>:  
-                Upload <b>CSV, Excel, JSON</b>, or use sample datasets.
+                ⚙️ <b>Automated Customization:</b> Features automated model customization that allows users to fine-tune their models effortlessly.
                 <br><br>
-                🎨 <b>Customization Options</b>:  
-                Modify axes, colors, title, labels, legends, and overall styling with ease.
+                📁 <b>Data Input:</b> Upload <b>CSV, Excel, JSON</b>, or use sample datasets.
+                <br><br>
+                
             </div>
             """,
             unsafe_allow_html=True
@@ -182,59 +185,51 @@ def MainPage():
           
     st.markdown("---")
 
-    # Section 3: Visualization Options (Real-time Plotting)
+    # Section 2: Visualization Options
     with st.container():
         st.markdown(
             '''
             <div class="subtitle">
-                2. 📊 Visualization Options (Real-time Plotting)
+                2. 📈 Advanced Modeling Techniques
             </div>
-            ''',unsafe_allow_html=True) 
-        col1, col2 = st.columns([2,1]) 
+            ''', unsafe_allow_html=True) 
+        col1, col2 = st.columns([2, 1]) 
              
         with col1:     
             st.markdown(
             """
             <div class="content">
-                👁️ <b>Live Preview</b>:  
-                Real-time plot updates as you tweak your inputs.
+                📊 <b>Optimized Performance:</b> Incorporates customized optimization techniques for enhanced model performance
                 <br><br>
-                🔄 <b>Combine Multiple Plots</b>:  
-                Merge several plots into one figure effortlessly.
+                🔄 <b>Bootstrapping & Stacking:</b> Automates bootstrapping and stacking of multiple models for robust predictions.
                 <br><br>
-                📤 <b>Export Plots</b>:  
-                Export in formats like <b>PNG, SVG, PDF</b> with just one click.
             </div>
             """,
             unsafe_allow_html=True
         )
         with col2:
-            lottile_json = load_lottie_file("./Visualization/FilesJson/Animation.json")
-            st_lottie(lottile_json, speed=52, width=300, height=200)
-            
+            st.write(" ")
+
     # Divider
     st.markdown("---")
 
-    # Section 2: Dynamic Code Generation
+    # Section 3: Dynamic Code Generation
     with st.container():
         st.markdown(
             """
             <div class="subtitle">
-                3. 🛠️ Dynamic Code Generation
+                3. 📊 Insightful Visualizations
             </div>
             <div class="content">
-                ⚙️ Automatically generate <b>clean, modular Python code</b> for your plots.
+                🎨 <b>Visual Insights:</b> Generate insightful visualizations that help in understanding model performance and feature importance.
                 <br><br>
-                📝 <b>Well-commented and reusable</b> code snippets.
+                📊<b> Comprehensive Metrics:</b> Access detailed metrics such as AUC-ROC and precision-recall curves for thorough evaluation.
                 <br><br>
-                💾 Include necessary imports and allow <b>saving the code</b> as a `.py` file for future use.
             </div>
             """,
             unsafe_allow_html=True
         )
 
-    # Divider
- 
     # Divider
     st.markdown("---")
 
@@ -243,43 +238,32 @@ def MainPage():
         st.markdown(
             '''
             <div class="subtitle">
-                4. 🚀 Advanced Features
+                🚀 Deployment-Ready Solutions
             </div>
             ''', unsafe_allow_html=True)
-        col1,col2 = st.columns([3,1])
+        col1, col2 = st.columns([3, 1])
         
         with col1:
             st.markdown(
             """
             <div class="content">
-                🧹 <b>Data Preprocessing</b>:  
-                Normalize, filter, and group data before plotting.
+                ✅ <b>Best-Performing Model:</b> Automatically identifies the best-performing model, ensuring deployment readiness for real-world applications.
                 <br><br>
-                📊 <b>Statistical Plots</b>:  
-                Create <b>correlation heatmaps, regression plots</b>, and more.
+                🧩 <b>User-Friendly Interface:</b> Simplifies the modeling process, allowing users to achieve accurate predictions without hassle.
                 <br><br>
-                🎨 <b>Templates & Themes</b>:  
-                Pre-defined themes, including a sleek <b>dark mode</b> option.
-                <br><br>
-                🌐 <b>Interactive Plots</b>:  
-                Use <b>Plotly</b> for interactive visualizations.
             </div>
             """,
             unsafe_allow_html=True
         )
             
         with col2:
-            lottile_json = load_lottie_file("./Visualization/FilesJson/Animation2.json")
-            st_lottie(lottile_json, speed=52, width=300, height=200)
-        
-        
+           st.write(" ")
 
     # Conclusion / Footer
     st.markdown(
         """
-        <div class="title">
-            ✨ Start exploring and creating beautiful visualizations today!
-        </div>
+        <div class="title" style="font-size:25px;">
+            ✨ Start exploring the power of our No-Code Model Platform to achieve accurate predictions effortlessly today!
         """,
         unsafe_allow_html=True
     )

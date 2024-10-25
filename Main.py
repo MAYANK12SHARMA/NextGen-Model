@@ -42,8 +42,8 @@ def load_lottie_file(file_path: str):
 def top_nav_menu():
     selected = option_menu(
         menu_title=None,  # No title for the horizontal menu
-        options=["Home", "Modelling", "AutoCode"],  # menu options
-        icons=["house", "person", "gear"],  # icons for each option
+        options=["Home", "No-Code Modelling"],  # menu options
+        icons=["house", "robot"],  # icons for each option (using example names)
         menu_icon="cast",  # optional menu icon
         default_index=0,  # default selected option
         orientation="horizontal",  # horizontal navigation bar at the top
@@ -54,7 +54,7 @@ def top_nav_menu():
                 "height": "40px",  # Set navbar height
                 "top": "0", "position": "sticky", "z-index": "999",
             },
-            "nav-link": {"font-size": "16px", "text-align": "center", "margin": "0px", "--hover-color": "#eee"},
+            "nav-link": {"font-size": "16px", "text-align": "center", "margin": "0px", "--hover-color": "#404040"},
             "icon": {"color": "orange", "font-size": "20px","padding-bottom": "2px"},
             "nav-link-selected": {"background-color": "#02ab21"},
         }
@@ -67,18 +67,8 @@ def top_nav_menu():
 
 
 
-def settings_page():
-    st.title("Settings Page")
-    st.write("You can change your settings here.")
-
-    # Sidebar content for the Settings page
-    st.sidebar.header("Settings Sidebar")
-    st.sidebar.write("This is the sidebar for the Settings page.")
-    st.sidebar.selectbox("Choose a setting", ["Option 1", "Option 2", "Option 3"])
-
-
 def main():
-    st.write("<h1 style='text-align: center;'>Ml Modelling</h1>", unsafe_allow_html=True)
+    st.write("<h1 style='text-align: center;'>No-Code Modelling</h1>", unsafe_allow_html=True)
     
     selected = top_nav_menu()  
 
@@ -87,12 +77,9 @@ def main():
         MainPageNavigation()   
         MainPage()
  
-    elif selected == "Modelling":
+    elif selected == "No-Code Modelling":
         Modelling()
         
-    elif selected == "AutoCode":
-        settings_page()  # Settings page with Settings sidebar
-
 # Run the main function
 if __name__ == "__main__":
     main()
