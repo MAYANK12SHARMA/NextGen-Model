@@ -78,8 +78,10 @@ def Modelling():
                 # Handle Excel files
                 if data.name.endswith('xlsx'):
                     df = pd.read_excel(data)
+                    df = df.dropna(axis=1, how='all')
                 else:
                     df = pd.read_csv(data)
+                    df = df.dropna(axis=1, how='all')
                 st.dataframe(df.head())
                 pdf_list = []
                 info=""
@@ -105,21 +107,6 @@ def Modelling():
 
                             return pdf_buffer
                         
-
-                        
-                        
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
                 st.sidebar.markdown(
                     """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>1. Remove Columns</h2><br>""",
                     unsafe_allow_html=True
@@ -129,7 +116,7 @@ def Modelling():
                 
                 if remove_columns == "True":             
                 # if st.sidebar.checkbox("Remove Columns"):
-                
+                    df = df.dropna(axis=1, how='all')
                     selected_columns = st.sidebar.multiselect("Select Columns to Remove", df.columns.to_list())
                     df = df.drop(selected_columns, axis=1)
                     st.write(df.head())
@@ -4365,9 +4352,19 @@ def Modelling():
                             data=model_file,
                             file_name="model.hd5",
                             mime="application/octet-stream"
-                            )   
-        
-    
-    
+                            ) 
+                    
+    else:
+        with st.sidebar:
+            st.info("Please upload a CSV file to start model training.")
+            lottie_json = load_lottie_file("./Visualization/FilesJson/Animation2.json")
+            st_lottie(lottie_json, speed=1, width=250, height=250, key="initial")
+          
+def load_lottie_file(file_path: str):
+    with open(file_path, "r") as f:
+        lottie_json = json.load(f)
+        return lottie_json
+
+import json
      
     
