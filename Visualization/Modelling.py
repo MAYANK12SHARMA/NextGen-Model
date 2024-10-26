@@ -59,23 +59,22 @@ from sklearn.metrics import (
 
 import streamlit as st
 
-def main():
-    
+def Modelling():
+    with st.sidebar:
+        st.image("./Visualization/Images/logo.png", width=200)
 
-
-    # Custom CSS for dark blue background
     
-    
-    
-
-    st.sidebar.header("Automated ML")
     data = st.file_uploader("Upload a Dataset", type=["csv", "xlsx"])
     if data is not None:
                 # Handle Excel files
                 if data.name.endswith('xlsx'):
                     df = pd.read_excel(data)
+                    df = df.dropna(axis=1, how='all')
+                    
                 else:
                     df = pd.read_csv(data)
+                    df = df.dropna(axis=1, how='all')
+                    
                 st.dataframe(df.head())
                 
                 
@@ -4317,7 +4316,22 @@ def main():
                             data=model_file,
                             file_name="model.hd5",
                             mime="application/octet-stream"
-                            )   
+                            ) 
+                    
+    else:
+        with st.sidebar:
+            st.info("Please upload a CSV file to start model training.")
+            lottie_json = load_lottie_file("./Visualization/FilesJson/Animation2.json")
+            st_lottie(lottie_json, speed=1, width=250, height=250, key="initial")
+import json
+          
+def load_lottie_file(file_path: str):
+    with open(file_path, "r") as f:
+        lottie_json = json.load(f)
+        return lottie_json
+
+     
+      
                         
 if __name__ == "__main__":
-    main()                                  
+    Modelling()                                  
