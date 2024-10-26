@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from pandas.plotting import parallel_coordinates
+from streamlit_lottie import st_lottie
+
 import plotly.express as px
 from io import BytesIO
 from fpdf import FPDF
@@ -4330,7 +4332,6 @@ def load_lottie_file(file_path: str):
         lottie_json = json.load(f)
         return lottie_json
 
-     
       
                         
 if __name__ == "__main__":
