@@ -4,8 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 from pandas.plotting import parallel_coordinates
-from streamlit_lottie import st_lottie
-
 import plotly.express as px
 from io import BytesIO
 from fpdf import FPDF
@@ -62,21 +60,22 @@ from sklearn.metrics import (
 import streamlit as st
 
 def Modelling():
-    with st.sidebar:
-        st.image("./Visualization/Images/logo.png", width=200)
-
     
+
+
+    # Custom CSS for dark blue background
+    
+    
+    
+
+    st.sidebar.header("Automated ML")
     data = st.file_uploader("Upload a Dataset", type=["csv", "xlsx"])
     if data is not None:
                 # Handle Excel files
                 if data.name.endswith('xlsx'):
                     df = pd.read_excel(data)
-                    df = df.dropna(axis=1, how='all')
-                    
                 else:
                     df = pd.read_csv(data)
-                    df = df.dropna(axis=1, how='all')
-                    
                 st.dataframe(df.head())
                 
                 
@@ -516,23 +515,23 @@ def Modelling():
                             
                             
                             st.write("---------------------------------------------------------------------------")
-                            # if st.checkbox("shap value"):
-                            #     explainer = shap.Explainer(randomforest)  # Create SHAP explainer
-                            #     shap_values = explainer(X_train)  # Get the SHAP values
+                            if st.checkbox("shap value"):
+                                explainer = shap.Explainer(randomforest)  # Create SHAP explainer
+                                shap_values = explainer(X_train)  # Get the SHAP values
 
                             
 
-                            #     # Create and display the waterfall plot
-                            #     fig, ax = plt.subplots() 
-                            #     shap.plots.waterfall(shap_values[0, :, 0])
-                            #     st.pyplot(fig)
+                                # Create and display the waterfall plot
+                                fig, ax = plt.subplots() 
+                                shap.plots.waterfall(shap_values[0, :, 0])
+                                st.pyplot(fig)
                                 
                                 
-                            #     # Option 1: Select SHAP values for a specific class
-                            #     fig, ax = plt.subplots() 
-                            #     shap.summary_plot(shap_values[:, :, 0], X_train)  # SHAP values for class 0
+                                # Option 1: Select SHAP values for a specific class
+                                fig, ax = plt.subplots() 
+                                shap.summary_plot(shap_values[:, :, 0], X_train)  # SHAP values for class 0
 
-                            #     st.pyplot(fig)
+                                st.pyplot(fig)
                         if(a=="correlation"):
                             def create_correlation_plot(df):
                                 for col in df.columns:
@@ -4318,21 +4317,47 @@ def Modelling():
                             data=model_file,
                             file_name="model.hd5",
                             mime="application/octet-stream"
-                            ) 
-                    
+                            )   
+              
     else:
         with st.sidebar:
             st.info("Please upload a CSV file to start model training.")
             lottie_json = load_lottie_file("./Visualization/FilesJson/Animation2.json")
             st_lottie(lottie_json, speed=1, width=250, height=250, key="initial")
-import json
           
 def load_lottie_file(file_path: str):
     with open(file_path, "r") as f:
         lottie_json = json.load(f)
         return lottie_json
 
-      
-                        
+import json
+                
+from streamlit_lottie import st_lottie        
 if __name__ == "__main__":
-    Modelling()                                  
+    Modelling()                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
