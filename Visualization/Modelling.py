@@ -1,88 +1,84 @@
-# Streamlit for web app
-from statistics import mode
 import streamlit as st
-from streamlit_lottie import st_lottie
-
-
-
-# Data manipulation
 import pandas as pd
 import numpy as np
-
-# Visualization
 import matplotlib.pyplot as plt
 import matplotlib
-from matplotlib.backends.backend_pdf import PdfPages
-import seaborn as sns
-import plotly.express as px
-
-# Matplotlib patches and parallel coordinates
-import matplotlib.patches as mpatches
 from pandas.plotting import parallel_coordinates
-
-# Machine learning libraries and models
+import plotly.express as px
+from io import BytesIO
+from fpdf import FPDF
+from PIL import Image
 from sklearn.utils import resample
+from sklearn.metrics import accuracy_score
+from scipy.stats import mode
 from sklearn.metrics import (
-    accuracy_score, mean_squared_error, mean_absolute_error, r2_score,
-    mean_absolute_percentage_error, explained_variance_score, confusion_matrix,
-    classification_report, precision_score, recall_score, roc_auc_score,
-    f1_score, matthews_corrcoef, roc_curve, precision_recall_curve
+    mean_squared_error, mean_absolute_error, r2_score,
+    mean_absolute_percentage_error, explained_variance_score
 )
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.linear_model import (
-    LogisticRegression, LinearRegression, SGDClassifier
-)
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.ensemble import (
-    RandomForestClassifier, RandomForestRegressor,
-    GradientBoostingClassifier, GradientBoostingRegressor,
-    AdaBoostClassifier, AdaBoostRegressor,
-    StackingClassifier, StackingRegressor, IsolationForest
-)
-from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor, LocalOutlierFactor
-from sklearn.svm import SVC, SVR, OneClassSVM
+import base64
+from reportlab.lib.utils import ImageReader
+import matplotlib.patches as mpatches
 from sklearn.decomposition import PCA
-
-# Time series analysis
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.ensemble import IsolationForest
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 
-# SHAP for model explainability
+
+
+
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler,LabelEncoder
+from sklearn.linear_model import LogisticRegression, LinearRegression,ridge_regression,SGDClassifier
+from sklearn.tree import DecisionTreeClassifier,DecisionTreeRegressor
+from sklearn.ensemble import RandomForestClassifier,RandomForestRegressor,GradientBoostingClassifier,GradientBoostingRegressor,AdaBoostClassifier,AdaBoostRegressor,StackingClassifier,StackingRegressor
+
+from sklearn.neighbors import KNeighborsClassifier,KNeighborsRegressor,LocalOutlierFactor
+from sklearn.svm import SVC,SVR,OneClassSVM
+from sklearn.metrics import accuracy_score, mean_squared_error,mean_absolute_error,r2_score,confusion_matrix,classification_report,precision_recall_curve,precision_score,recall_score,roc_auc_score
+import pickle
+import io
+from sklearn.model_selection import GridSearchCV
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+from matplotlib.backends.backend_pdf import PdfPages
+import PyPDF2
 import shap
 shap.initjs()
 
-# PDF generation and handling
-from fpdf import FPDF
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.lib.utils import ImageReader
-from PyPDF2 import PdfMerger, PdfReader
-
-# Image handling and I/O
-import io
-from PIL import Image
-from io import BytesIO
-import base64
-import pickle
+from PyPDF2 import PdfMerger
 
 
-#? ==================================== Additional Functions ====================================
+from sklearn.metrics import (
+    accuracy_score, confusion_matrix, classification_report,
+    precision_score, recall_score, f1_score, roc_auc_score,
+    matthews_corrcoef, roc_curve, precision_recall_curve
+)
 
-def Modelling():
-    with st.sidebar:
-        st.image("./Visualization/Images/logo.png", width=200)
+import streamlit as st
+
+def main():
     
+
+
+    # Custom CSS for dark blue background
+    
+    
+    
+
+    st.sidebar.header("Automated ML")
     data = st.file_uploader("Upload a Dataset", type=["csv", "xlsx"])
     if data is not None:
                 # Handle Excel files
                 if data.name.endswith('xlsx'):
                     df = pd.read_excel(data)
-                    df = df.dropna(axis=1, how='all')
                 else:
                     df = pd.read_csv(data)
-                    df = df.dropna(axis=1, how='all')
                 st.dataframe(df.head())
+                
+                
                 pdf_list = []
                 info=""
                 def create_pdf(info_text):
@@ -107,18 +103,28 @@ def Modelling():
 
                             return pdf_buffer
                         
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>1. Remove Columns</h2><br>""",
-                    unsafe_allow_html=True
-                )
+
+                        
+                        
                 
-                remove_columns = st.sidebar.selectbox("", ["False", "True"], label_visibility="collapsed", key="remove_columns")
                 
-                if remove_columns == "True":             
-                # if st.sidebar.checkbox("Remove Columns"):
-                    df = df.dropna(axis=1, how='all')
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                    
+                    
+                if st.sidebar.checkbox("Remove Columns"):
+                
                     selected_columns = st.sidebar.multiselect("Select Columns to Remove", df.columns.to_list())
                     df = df.drop(selected_columns, axis=1)
+                    df=df.dropna()
                     st.write(df.head())
                 # if st.sidebar.checkbox("Encode Selected Categorical Columns"):
                 #     categorical_columns = st.sidebar.multiselect("Select Categorical Columns to Encode", df.select_dtypes(include=['object']).columns.to_list())
@@ -156,17 +162,15 @@ def Modelling():
                         
                        
                 
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>2. Exploratory data analysis</h2><br>""",
-                    unsafe_allow_html=True
-                )
-                
-                EDA_options = st.sidebar.selectbox("Select EDA Option", ["False", "True"], label_visibility="collapsed", key="eda_options")
-                
-                if EDA_options == "True":
+                st.sidebar.write("---------------------------------------------------------------------------")
+                if st.sidebar.checkbox("EDA"):
                         pdf_list=[]
                         plots=[]
                         
+                        
+                                                
+                     
+                   
                         if st.checkbox("Show Shape"):
                             st.write(f"Shape of the dataset: {df.shape}")
                             shape_info = f"Shape of the dataset: {df.shape}\n"
@@ -393,15 +397,9 @@ def Modelling():
         
                                 
                     
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>3. Generate Plots </h2><br>""",
-                    unsafe_allow_html=True
-                )
+                st.sidebar.write("---------------------------------------------------------------------------")
                 
-                generate_plots_option = st.sidebar.selectbox("Generate Plots", ["False", "True"], label_visibility="collapsed", key="generate_plots")
-                      
-                if generate_plots_option == "True":
-                              
+                if st.sidebar.checkbox("Generate Plot"):
                     plots=["histogram","scatterplot","cumulative distribution plots","density plot"]
                     a=st.selectbox("choose any plot",plots)
                     st.write(a)
@@ -486,14 +484,9 @@ def Modelling():
                          
                 
                         
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>4. Feature Importance </h2><br>""",
-                    unsafe_allow_html=True
-                )     
                 
-                feature_importance_option = st.sidebar.selectbox("Feature Importance", ["False", "True"], label_visibility="collapsed", key="feature_importance")
-                
-                if feature_importance_option == "True":
+                st.sidebar.write("---------------------------------------------------------------------------")
+                if st.sidebar.checkbox("important features"):
                     try:
                         all_columns = df.columns.to_list()
                         target= st.sidebar.selectbox("Select Target Column", all_columns)
@@ -522,23 +515,23 @@ def Modelling():
                             
                             
                             st.write("---------------------------------------------------------------------------")
-                            if st.checkbox("shap value"):
-                                explainer = shap.Explainer(randomforest)  # Create SHAP explainer
-                                shap_values = explainer(X_train)  # Get the SHAP values
+                            # if st.checkbox("shap value"):
+                            #     explainer = shap.Explainer(randomforest)  # Create SHAP explainer
+                            #     shap_values = explainer(X_train)  # Get the SHAP values
 
                             
 
-                                # Create and display the waterfall plot
-                                fig, ax = plt.subplots() 
-                                shap.plots.waterfall(shap_values[0, :, 0])
-                                st.pyplot(fig)
+                            #     # Create and display the waterfall plot
+                            #     fig, ax = plt.subplots() 
+                            #     shap.plots.waterfall(shap_values[0, :, 0])
+                            #     st.pyplot(fig)
                                 
                                 
-                                # Option 1: Select SHAP values for a specific class
-                                fig, ax = plt.subplots() 
-                                shap.summary_plot(shap_values[:, :, 0], X_train)  # SHAP values for class 0
+                            #     # Option 1: Select SHAP values for a specific class
+                            #     fig, ax = plt.subplots() 
+                            #     shap.summary_plot(shap_values[:, :, 0], X_train)  # SHAP values for class 0
 
-                                st.pyplot(fig)
+                            #     st.pyplot(fig)
                         if(a=="correlation"):
                             def create_correlation_plot(df):
                                 for col in df.columns:
@@ -685,15 +678,8 @@ def Modelling():
                             
                             
                         } 
-                
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>5. Enable Anamaly Detection</h2><br>""",
-                    unsafe_allow_html=True
-                )                
-                
-                anomaly_detection_option = st.sidebar.selectbox("Anomaly Detection", ["False", "True"], label_visibility="collapsed", key="anomaly_detection")
-                
-                if anomaly_detection_option == "True":
+                st.sidebar.write("---------------------------------------------------------------------------")
+                if st.sidebar.checkbox("Enable Anomaly Detection"): 
                     method = st.selectbox("Choose an anomaly detection method", 
                                   ["Isolation Forest"]
                                        )
@@ -728,15 +714,9 @@ def Modelling():
                             st.pyplot(fig)
                         except:
                             st.write("")
-
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>6. Time-Series Analysis</h2><br>""",
-                    unsafe_allow_html=True
-                )
-                
-                time_series_option = st.sidebar.selectbox("Model Selection", ["False", "True"], label_visibility="collapsed", key="time_series")
-                
-                if time_series_option == "True":
+                st.sidebar.write("---------------------------------------------------------------------------")            
+                        
+                if st.sidebar.checkbox("timeseries data"):
                     index_column = st.selectbox("Select a column to set as index (usually a date/time column)", df.columns)
 
                     # Set the selected column as the index
@@ -791,15 +771,10 @@ def Modelling():
                         st.write("ARIMA Model Summary:")
                         st.text(model_fit.summary())
                 
+                st.sidebar.write("---------------------------------------------------------------------------")
                 
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>7. Enable Ensemble Learning</h2><br>""",
-                    unsafe_allow_html=True
-                )
                 
-                ensemble_option = st.sidebar.selectbox("Ensemble Learning", ["False", "True"], label_visibility="collapsed", key="ensemble")
-                
-                if ensemble_option == "True":
+                if st.sidebar.checkbox("ensemble"):
                     models=['custom bagging','custom boosting']
                     option=["regression","classification"]
                     st.subheader("Boothstrap Aggreation")
@@ -1196,14 +1171,9 @@ def Modelling():
                             st.write("Please select at least one model.")
 
                         
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>8. Enable Stacking Classifer</h2><br>""",
-                    unsafe_allow_html=True
-                )
-                
-                stacking_option = st.sidebar.selectbox("Stacking Classifer", ["False", "True"], label_visibility="collapsed", key="stacking")
-                
-                if stacking_option == "True":
+                                    
+                st.sidebar.write("---------------------------------------------------------------------------")
+                if st.sidebar.checkbox('Stacking '):
                     option=["regression","classification"]
                     m=st.selectbox("target type",options=["target"]+option)
                     
@@ -1461,15 +1431,10 @@ def Modelling():
                     
                     
                         
-                st.sidebar.markdown(
-                    """<h2 style='color: #FFFFFF; font-weight: bold;align-item:center;text-align:center; font-size: 18px; font-family: "Times New Roman"; border-bottom: 2px solid #FFFFFF; padding-bottom: 10px;'>9. Select Model </h2><br>""",
-                    unsafe_allow_html=True
-                )
+                            
                 
-                
-                                            
-                
-                model_name = st.sidebar.selectbox("Select Model",options=["Select a model"] + list(all_models.keys()),label_visibility="collapsed", key="model")
+                st.sidebar.write("---------------------------------------------------------------------------")        
+                model_name = st.sidebar.selectbox("Select Model",options=["Select a model"] + list(all_models.keys())) 
                         
                         
                     
@@ -4352,19 +4317,7 @@ def Modelling():
                             data=model_file,
                             file_name="model.hd5",
                             mime="application/octet-stream"
-                            ) 
-                    
-    else:
-        with st.sidebar:
-            st.info("Please upload a CSV file to start model training.")
-            lottie_json = load_lottie_file("./Visualization/FilesJson/Animation2.json")
-            st_lottie(lottie_json, speed=1, width=250, height=250, key="initial")
-          
-def load_lottie_file(file_path: str):
-    with open(file_path, "r") as f:
-        lottie_json = json.load(f)
-        return lottie_json
-
-import json
-     
-    
+                            )   
+                        
+if __name__ == "__main__":
+    main()                                  
