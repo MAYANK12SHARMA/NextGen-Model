@@ -3,15 +3,16 @@ from streamlit_option_menu import option_menu
 import json
 from streamlit_lottie import st_lottie
 
-from Visualization.Home import MainPage, MainPageNavigation
-from Visualization.Modelling import Modelling
+from Visualization.Home import MainPage, MainPageNavigation, ModelNavigation
+from Visualization.code_modelling import Modelling
 
 
-#? ================================== Additional part  ==================================================
- 
+# ? ================================== Additional part  ==================================================
+
 st.set_page_config(page_title="Visualization Tool", page_icon="📊", layout="wide")
 
-st.markdown("""
+st.markdown(
+    """
     <style>
     .css-18e3th9 {
         padding-top: 0 !important;
@@ -30,7 +31,10 @@ st.markdown("""
     }
     # header {visibility: hidden;}
     </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
+
 
 def load_lottie_file(file_path: str):
     with open(file_path, "r") as f:
@@ -38,7 +42,7 @@ def load_lottie_file(file_path: str):
         return lottie_json
 
 
-#? =============================== Navbar ================================== 
+# ? =============================== Navbar ==================================
 def top_nav_menu():
     selected = option_menu(
         menu_title=None,  # No title for the horizontal menu
@@ -49,37 +53,49 @@ def top_nav_menu():
         orientation="horizontal",  # horizontal navigation bar at the top
         styles={
             "container": {
-                "padding": "0", "margin": "0",
+                "padding": "0",
+                "margin": "0",
                 "width": "100%",  # Set navbar width to 100% of the page
                 "height": "40px",  # Set navbar height
-                "top": "0", "position": "sticky", "z-index": "999",
+                "top": "0",
+                "position": "sticky",
+                "z-index": "999",
             },
-            "nav-link": {"font-size": "16px", "text-align": "center", "margin": "0px", "--hover-color": "#404040"},
-            "icon": {"color": "orange", "font-size": "20px","padding-bottom": "2px"},
+            "nav-link": {
+                "font-size": "16px",
+                "text-align": "center",
+                "margin": "0px",
+                "--hover-color": "#404040",
+            },
+            "icon": {"color": "orange", "font-size": "20px", "padding-bottom": "2px"},
             "nav-link-selected": {"background-color": "#02ab21"},
-        }
+        },
     )
     return selected
 
+
 #! ============================================= Pages =============================================
 
-#? ========================================= Code Generation Page ================================== 
-
+# ? ========================================= Code Generation Page ==================================
 
 
 def main():
-    st.write("<h1 style='text-align: center;'>No-Code Modelling</h1>", unsafe_allow_html=True)
-    
-    selected = top_nav_menu()  
+    st.write(
+        "<h1 style='text-align: center;'>No-Code Modelling</h1>", unsafe_allow_html=True
+    )
+
+    selected = top_nav_menu()
 
     # Route to different pages based on user selection
     if selected == "Home":
-        MainPageNavigation()   
+        MainPageNavigation()
         MainPage()
- 
+
     elif selected == "No-Code Modelling":
+        ModelNavigation()
         Modelling()
-        
+
+
 # Run the main function
 if __name__ == "__main__":
     main()
